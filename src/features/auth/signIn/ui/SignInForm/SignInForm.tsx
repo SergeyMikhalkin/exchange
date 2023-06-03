@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Card, Form, Input } from 'antd';
 
-function SignInForm() {
+export function SignInForm() {
   return (
     <Card>
       <Form
@@ -36,5 +36,3 @@ function SignInForm() {
     </Card>
   );
 }
-
-export default SignInForm;
