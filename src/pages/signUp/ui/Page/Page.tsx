@@ -1,16 +1,16 @@
 import React from 'react';
 import { SignUpForm } from 'features/auth/signUp';
-import { SignUpDataType, useLocalStorage } from 'shared';
+import { User, useLocalStorage } from 'shared';
 import { Typography } from 'antd';
+
+const { Title } = Typography;
 
 export function SignUpPage() {
   const [, setUser] = useLocalStorage();
 
-  const onSubmit = (formData: SignUpDataType) => {
+  const onSubmit = (formData: User) => {
     setUser(formData.userName + formData.password);
   };
-
-  const { Title } = Typography;
 
   return (
     <>

@@ -1,8 +1,10 @@
 import React from 'react';
 import { Button, Card, Form, Input } from 'antd';
-import { SignInDataType } from 'shared';
+import { User } from 'shared';
 
-export function SignInForm({ onSubmit }: { onSubmit: (formData: SignInDataType) => void }) {
+type Props = { onSubmit: (formData: User) => void };
+
+export function SignInForm({ onSubmit }: Props) {
   return (
     <Card>
       <Form

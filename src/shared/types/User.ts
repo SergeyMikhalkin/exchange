@@ -1,4 +1,5 @@
-export type SignInDataType = {
+export type User = {
   userName: string;
   password: string;
+  confirm?: string;
 };
