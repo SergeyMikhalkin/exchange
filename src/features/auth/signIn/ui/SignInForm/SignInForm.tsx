@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button, Card, Form, Input } from 'antd';
+import { SignInDataType } from 'shared';
 
-export function SignInForm() {
+export function SignInForm({ onSubmit }: { onSubmit: (formData: SignInDataType) => void }) {
   return (
     <Card>
       <Form
@@ -10,10 +11,11 @@ export function SignInForm() {
         wrapperCol={{ span: 16 }}
         style={{ maxWidth: 600 }}
         autoComplete="off"
+        onFinish={onSubmit}
       >
         <Form.Item
-          label="Username"
-          name="username"
+          label="User name"
+          name="userName"
           rules={[{ required: true, message: 'Please input your username!' }]}
         >
           <Input />

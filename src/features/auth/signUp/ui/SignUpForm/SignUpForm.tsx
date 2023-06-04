@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button, Card, Form, Input } from 'antd';
+import { SignUpDataType } from 'shared';
 
-export function SignUpForm() {
+export function SignUpForm({ onSubmit }: { onSubmit: (formData: SignUpDataType) => void }) {
   return (
     <Card>
       <Form
@@ -10,10 +11,11 @@ export function SignUpForm() {
         wrapperCol={{ span: 16 }}
         style={{ minWidth: 600 }}
         autoComplete="off"
+        onFinish={onSubmit}
       >
         <Form.Item
-          label="Username"
-          name="username"
+          label="User name"
+          name="userName"
           rules={[{ required: true, message: 'Please input your username!' }]}
         >
           <Input />
@@ -29,8 +31,20 @@ export function SignUpForm() {
 
         <Form.Item
           label="Confirm Password"
-          name="confirmedPassword"
-          rules={[{ required: true, message: 'Please input your password!' }]}
+          name="confirm"
+          rules={[
+            { required: true, message: 'Please input your password!' },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(
+                  new Error('The two passwords that you entered do not match!')
+                );
+              },
+            }),
+          ]}
         >
           <Input.Password />
         </Form.Item>
