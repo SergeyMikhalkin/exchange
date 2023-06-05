@@ -1,13 +1,24 @@
 import React from 'react';
 import { Button, Card, Form, Input } from 'antd';
 import { User } from 'shared';
+import { RuleObject } from 'antd/es/form';
 
 type Props = { onSubmit: (formData: User) => void };
 
 export function SignUpForm({ onSubmit }: Props) {
+  const [form] = Form.useForm();
+
+  const checkPasswordsEquality = (_: RuleObject, value: string) => {
+    if (!value || form.getFieldValue('password') === value) {
+      return Promise.resolve();
+    }
+    return Promise.reject(new Error('The two passwords that you entered do not match!'));
+  };
+
   return (
     <Card>
       <Form
+        form={form}
         name="basic"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
@@ -36,16 +47,7 @@ export function SignUpForm({ onSubmit }: Props) {
           name="confirm"
           rules={[
             { required: true, message: 'Please input your password!' },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue('password') === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(
-                  new Error('The two passwords that you entered do not match!')
-                );
-              },
-            }),
+            { validator: checkPasswordsEquality },
           ]}
         >
           <Input.Password />
