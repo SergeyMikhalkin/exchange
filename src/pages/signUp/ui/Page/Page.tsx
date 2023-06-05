@@ -1,6 +1,6 @@
 import React from 'react';
 import { SignUpForm } from 'features/auth/signUp';
-import { User, useLocalStorage } from 'shared';
+import { SignUpFormData, useLocalStorage } from 'shared';
 import { Typography } from 'antd';
 
 const { Title } = Typography;
@@ -8,7 +8,7 @@ const { Title } = Typography;
 export function SignUpPage() {
   const [, setUser] = useLocalStorage();
 
-  const onSubmit = (formData: User) => {
+  const onSubmit = (formData: SignUpFormData) => {
     setUser(formData.userName + formData.password);
   };
 

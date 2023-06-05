@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button, Card, Form, Input } from 'antd';
-import { User } from 'shared';
+import { SignUpFormData } from 'shared';
 import { RuleObject } from 'antd/es/form';
 
-type Props = { onSubmit: (formData: User) => void };
+type Props = { onSubmit: (formData: SignUpFormData) => void };
 
 export function SignUpForm({ onSubmit }: Props) {
   const [form] = Form.useForm();
