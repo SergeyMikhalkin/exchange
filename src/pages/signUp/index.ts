@@ -1,1 +1,3 @@
-export { SignUpPage } from './ui/Page/Page';
+import { SignUpPage } from './ui/Page/Page';
+
+export default SignUpPage;
