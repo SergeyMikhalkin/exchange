@@ -6,8 +6,8 @@ const initialState = {
   status: Statuses.idle,
 };
 
-export const fetchBanks = createAsyncThunk('banks/fetchBanks', async () => {
-  const response = await fetch(BASE_URL);
+export const fetchBanks = createAsyncThunk('banks/fetchBanks', async (searchString: string) => {
+  const response = await fetch(`${BASE_URL}${searchString}`);
   return response.json();
 });
 
@@ -44,6 +44,7 @@ const banksSlice = createSlice({
             newEntities[transformedBank.filialId] = transformedBank;
           });
         }
+
         state.entities = newEntities;
         state.status = Statuses.succeeded;
       })
