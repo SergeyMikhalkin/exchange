@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { BASE_URL, Bank, RawBank } from 'shared';
+import { BASE_URL, Bank, RawBank, Statuses } from 'shared';
 
 const initialState = {
   entities: {},
-  status: 'idle',
+  status: Statuses.idle,
 };
 
 export const fetchBanks = createAsyncThunk('banks/fetchBanks', async () => {
@@ -32,7 +32,7 @@ const banksSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchBanks.pending, (state) => {
-        state.status = 'loading';
+        state.status = Statuses.loading;
       })
       .addCase(fetchBanks.fulfilled, (state, action) => {
         const newEntities: { [key: string]: Bank } = {};
@@ -45,10 +45,10 @@ const banksSlice = createSlice({
           });
         }
         state.entities = newEntities;
-        state.status = 'succeeded';
+        state.status = Statuses.succeeded;
       })
       .addCase(fetchBanks.rejected, (state) => {
-        state.status = 'failed';
+        state.status = Statuses.failed;
       });
   },
 });
@@ -58,7 +58,7 @@ export default banksSlice;
 type RootState = {
   banks: {
     entities: { [key: string]: Bank };
-    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    status: Statuses;
   };
 };
 

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchBanks, getBanks, getStatus } from 'app/redux/banksSlice';
 import { AppDispatch } from 'app/redux/store';
 import BanksList from 'widgets/BanksList';
+import { Statuses } from 'shared';
 
 const { Title } = Typography;
 
@@ -13,7 +14,7 @@ export function MainPage() {
   const banksStatus = useSelector(getStatus);
 
   useEffect(() => {
-    if (banksStatus === 'idle') {
+    if (banksStatus === Statuses.idle) {
       dispatch(fetchBanks());
     }
   }, [banksStatus, dispatch]);
