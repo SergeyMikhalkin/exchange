@@ -13,11 +13,11 @@ type Props = {
 function BankCard(props: Props) {
   const { bank } = props;
 
-  const title = `${bank.name_type} ${bank.name}`;
-  const filial = bank.filials_text;
-  const address = `${bank.street_type}${bank.street} ${bank.home_number}`;
-  const shedule = bank.info_worktime.split('|');
-  const link = `/bank/${bank.filial_id}`;
+  const title = `${bank.cityType} ${bank.cityName}`;
+  const filial = bank.description;
+  const address = `${bank.streetType}${bank.streetName} ${bank.buildingNumber}`;
+  const shedule = bank.weekShedule.split('|');
+  const link = `/bank/${bank.filialId}`;
 
   return (
     <Card title={title} extra={<Link to={link}>More</Link>} style={{ width: 350 }}>
@@ -37,14 +37,13 @@ export default BankCard;
 
 BankCard.propTypes = {
   bank: PropTypes.shape({
-    filial_id: PropTypes.string,
-    sap_id: PropTypes.string,
-    info_worktime: PropTypes.string,
-    street_type: PropTypes.string,
-    street: PropTypes.string,
-    filials_text: PropTypes.string,
-    home_number: PropTypes.string,
-    name: PropTypes.string,
-    name_type: PropTypes.string,
+    filialId: PropTypes.string,
+    weekShedule: PropTypes.string,
+    streetType: PropTypes.string,
+    streetName: PropTypes.string,
+    description: PropTypes.string,
+    buildingNumber: PropTypes.string,
+    cityName: PropTypes.string,
+    cityType: PropTypes.string,
   }).isRequired,
 };

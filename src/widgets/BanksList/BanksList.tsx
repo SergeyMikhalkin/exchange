@@ -34,15 +34,14 @@ export default BanksList;
 BanksList.propTypes = {
   banks: PropTypes.arrayOf(
     PropTypes.shape({
-      filial_id: PropTypes.string,
-      sap_id: PropTypes.string,
-      info_worktime: PropTypes.string,
-      street_type: PropTypes.string,
-      street: PropTypes.string,
-      filials_text: PropTypes.string,
-      home_number: PropTypes.string,
-      name: PropTypes.string,
-      name_type: PropTypes.string,
+      filialId: PropTypes.string,
+      weekShedule: PropTypes.string,
+      streetType: PropTypes.string,
+      streetName: PropTypes.string,
+      description: PropTypes.string,
+      buildingNumber: PropTypes.string,
+      cityName: PropTypes.string,
+      cityType: PropTypes.string,
     })
   ).isRequired,
 };
