@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Typography } from 'antd';
+import { Space, Spin, Typography } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBanks, getBanks, getStatus } from 'app/redux/banksSlice';
 import { AppDispatch } from 'app/redux/store';
@@ -22,7 +22,13 @@ export function MainPage() {
   return (
     <>
       <Title>Banks</Title>
-      <BanksList banks={banks} />
+      {banksStatus === Statuses.loading ? (
+        <Space size="large">
+          <Spin size="large" />
+        </Space>
+      ) : (
+        <BanksList banks={banks} />
+      )}
     </>
   );
 }
