@@ -6,12 +6,15 @@ const initialState = {
   status: Statuses.idle,
 };
 
-export const fetchBanks = createAsyncThunk('banks/fetchBanks', async (searchString: string) => {
-  const response = await fetch(`${BASE_URL}${searchString}`);
-  return response.json();
-});
+export const fetchBanks = createAsyncThunk<Promise<Array<RawBank>>, string>(
+  'banks/fetchBanks',
+  async (searchString: string) => {
+    const response = await fetch(`${BASE_URL}${searchString}`);
+    return response.json();
+  }
+);
 
-const transformData = (rawBank: RawBank) => {
+const transformData = (rawBank: RawBank): Bank => {
   const bankInfo: Bank = {
     filialId: rawBank.filial_id,
     weekShedule: rawBank.info_worktime,
@@ -63,6 +66,6 @@ type RootState = {
   };
 };
 
-export const getBanks = (state: RootState) => Object.values(state.banks.entities);
+export const getBanks = (state: RootState): Array<Bank> => Object.values(state.banks.entities);
 
-export const getStatus = (state: RootState) => state.banks.status;
+export const getStatus = (state: RootState): Statuses => state.banks.status;
