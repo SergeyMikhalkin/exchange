@@ -1,5 +1,6 @@
 import Loading from './Loading/Loading';
 import Header from './Header/Header';
+import ErrorComponent from './Error/ErrorComponent';
 
-export { Header };
+export { Header, ErrorComponent };
 export default Loading;
