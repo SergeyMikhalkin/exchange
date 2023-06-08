@@ -15,8 +15,9 @@
 - Есть рендеринг списков [BanksList](./src/widgets/BanksList/BanksList.tsx),
 - Реализована хотя бы одна форма [SignUp](./src/features/auth/signUp/ui/SignUpForm/SignUpForm.tsx), [SignIn](./src/features/auth/signIn/ui/SignInForm/SignInForm.tsx),
 - Есть применение предохранителя [withErrorBoundary](./src/index.tsx)
-- Есть хотя бы один кастомный хук [useLocalStorage](./src/shared/hooks/useLocalStorage.ts),
+- Есть хотя бы один кастомный хук [useLocalStorage](./src/shared/hooks/useLocalStorage.ts), [useThrottle](./src/shared/hooks/useThrottle.ts),
 - Хотя бы несколько компонентов используют PropTypes [BanksList](./src/widgets/BanksList/BanksList.tsx), [BankCard](./src/entities/bank/ui/bank-card/index.tsx),
+- Поиск не триггерит много запросов к серверу [useThrottle](./src/shared/hooks/useThrottle.ts),
 - Есть применение lazy + Suspense [lazy+Suspense](./src/app/index.tsx)
 
 ### Redux
