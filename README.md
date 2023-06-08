@@ -17,3 +17,8 @@
 - Есть хотя бы один кастомный хук [useLocalStorage](./src/shared/hooks/useLocalStorage.ts),
 - Хотя бы несколько компонентов используют PropTypes [BanksList](./src/widgets/BanksList/BanksList.tsx), [BankCard](./src/entities/bank/ui/bank-card/index.tsx),
 - Есть применение lazy + Suspense [lazy+Suspense](./src/app/index.tsx)
+
+### Redux
+
+- Используется Modern Redux with Redux Toolkit [configureStore](./src/app/redux/store.ts),
+- Используются слайсы [banksSlice](./src/app/redux/banksSlice.ts)

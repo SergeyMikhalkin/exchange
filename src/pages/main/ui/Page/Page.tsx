@@ -1,8 +1,26 @@
 import React from 'react';
-import { Typography } from 'antd';
-
-const { Title } = Typography;
+import { Divider, Space, Spin } from 'antd';
+import { useSelector } from 'react-redux';
+import { getBanks, getStatus } from 'app/redux/banksSlice';
+import BanksList from 'widgets/BanksList';
+import { Statuses } from 'shared';
+import { Header } from 'shared/ui';
 
 export function MainPage() {
-  return <Title>Main</Title>;
+  const banks = useSelector(getBanks);
+  const banksStatus = useSelector(getStatus);
+
+  return (
+    <>
+      <Header />
+      <Divider />
+      {banksStatus === Statuses.loading ? (
+        <Space size="large">
+          <Spin size="large" />
+        </Space>
+      ) : (
+        <BanksList banks={banks} />
+      )}
+    </>
+  );
 }
