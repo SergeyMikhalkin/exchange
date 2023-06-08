@@ -1,15 +1,24 @@
 import { Form, Input } from 'antd';
 import { fetchBanks } from 'app/redux/banksSlice';
 import { AppDispatch } from 'app/redux/store';
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useThrottle } from 'shared';
 
 function Header() {
   const dispatch = useDispatch<AppDispatch>();
+  const [searchString, setSearchString] = useState('');
+  const throttledValue = useThrottle(searchString);
+
+  useEffect(() => {
+    if (throttledValue) {
+      dispatch(fetchBanks(throttledValue));
+    }
+  }, [throttledValue, dispatch]);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > 3) {
-      dispatch(fetchBanks(e.target.value));
+      setSearchString(e.target.value);
     }
   };
 
