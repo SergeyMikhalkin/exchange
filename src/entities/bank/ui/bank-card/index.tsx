@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Space, Typography } from 'antd';
 import { Bank } from 'shared';
 import PropTypes from 'prop-types';
+import { HeartFilled, HeartOutlined } from '@ant-design/icons';
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 const formatShedule = (shedule: Array<string>): Array<string> => {
   const formatedValue = shedule.map((dayString) => {
@@ -33,6 +34,7 @@ type Props = {
 
 function BankCard(props: Props) {
   const { bank } = props;
+  const [favorite, toggleFavorite] = useState(false);
 
   const title = `${bank.cityType} ${bank.cityName}`;
   const filial = bank.description;
@@ -45,8 +47,19 @@ function BankCard(props: Props) {
   const link = `/bank/${bank.filialId}`;
 
   return (
-    <Card title={title} extra={<Link to={link}>More</Link>} style={{ width: 300, height: 400 }}>
-      <Title level={5}>{filial}</Title>
+    <Card
+      title={title}
+      bodyStyle={{ height: 350, overflow: 'hidden' }}
+      extra={<Link to={link}>More</Link>}
+      actions={[
+        favorite ? (
+          <HeartFilled onClick={() => toggleFavorite(!favorite)} key="favorite" />
+        ) : (
+          <HeartOutlined onClick={() => toggleFavorite(!favorite)} key="favorite" />
+        ),
+      ]}
+    >
+      <Text strong>{filial}</Text>
       <Space direction="vertical">
         <Text>{address}</Text>
         {formatedShedule.map((day: string) => (
