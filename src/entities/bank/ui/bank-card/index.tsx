@@ -1,10 +1,31 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, List, Typography } from 'antd';
+import { Card, Space, Typography } from 'antd';
 import { Bank } from 'shared';
 import PropTypes from 'prop-types';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
+
+const formatShedule = (shedule: Array<string>): Array<string> => {
+  const formatedValue = shedule.map((dayString) => {
+    let formatedString: string = dayString;
+    const sheduleTimeParts = dayString.slice(2).trim().split(' '); // '10 30 19 00' => ['10', '30', '19', '00']
+    if (sheduleTimeParts.length > 0) {
+      const shortDayString = dayString.slice(0, 2);
+
+      if (sheduleTimeParts.length === 4) {
+        formatedString = `${shortDayString} ${sheduleTimeParts[0]}:${sheduleTimeParts[1]}-${sheduleTimeParts[2]}:${sheduleTimeParts[3]}`;
+      }
+      if (sheduleTimeParts.length === 8) {
+        formatedString = `${shortDayString} ${sheduleTimeParts[0]}:${sheduleTimeParts[1]}-${sheduleTimeParts[2]}:${sheduleTimeParts[3]} ${sheduleTimeParts[4]}:${sheduleTimeParts[5]}-${sheduleTimeParts[6]}:${sheduleTimeParts[7]}`;
+      }
+      return formatedString;
+    }
+    return dayString;
+  });
+
+  return formatedValue;
+};
 
 type Props = {
   bank: Bank;
@@ -15,20 +36,23 @@ function BankCard(props: Props) {
 
   const title = `${bank.cityType} ${bank.cityName}`;
   const filial = bank.description;
-  const address = `${bank.streetType}${bank.streetName} ${bank.buildingNumber}`;
+  const address = `${bank.streetType} ${bank.streetName} ${bank.buildingNumber}`;
+
   const shedule = bank.weekShedule.split('|');
+
+  const formatedShedule = formatShedule(shedule);
+
   const link = `/bank/${bank.filialId}`;
 
   return (
-    <Card title={title} extra={<Link to={link}>More</Link>} style={{ width: 350 }}>
-      <Title level={4}>{filial}</Title>
-      <Title level={5}>{address}</Title>
-      <List
-        size="small"
-        bordered
-        dataSource={shedule}
-        renderItem={(day: string) => <List.Item>{day}</List.Item>}
-      />
+    <Card title={title} extra={<Link to={link}>More</Link>} style={{ width: 300, height: 400 }}>
+      <Title level={5}>{filial}</Title>
+      <Space direction="vertical">
+        <Text>{address}</Text>
+        {formatedShedule.map((day: string) => (
+          <Text>{day}</Text>
+        ))}
+      </Space>
     </Card>
   );
 }

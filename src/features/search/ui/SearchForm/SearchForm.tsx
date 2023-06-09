@@ -5,7 +5,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useThrottle } from 'shared';
 
-function Header() {
+function SearchForm() {
   const dispatch = useDispatch<AppDispatch>();
   const [searchString, setSearchString] = useState('');
   const throttledValue = useThrottle(searchString);
@@ -37,4 +37,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default SearchForm;

@@ -1,6 +1,6 @@
 import React from 'react';
 import BankCard from 'entities/bank';
-import { List } from 'antd';
+import { Col, Row, Space } from 'antd';
 import { Bank } from 'shared';
 import PropTypes from 'prop-types';
 
@@ -10,22 +10,29 @@ type Props = {
 
 function BanksList(props: Props) {
   const { banks } = props;
+
+  const rows: Array<Array<Bank>> = [];
+
+  for (let i = 0; i < banks.length; i += 3) {
+    const newRow: Array<Bank> = [];
+    for (let j = 0; j < 3; j += 1) {
+      if (i + j < banks.length) newRow.push(banks[i + j]);
+    }
+    rows.push(newRow);
+  }
+
   return (
-    <List
-      grid={{
-        gutter: 16,
-        xs: 1,
-        sm: 1,
-        md: 2,
-        lg: 3,
-      }}
-      dataSource={banks}
-      renderItem={(bank) => (
-        <List.Item>
-          <BankCard bank={bank} />
-        </List.Item>
-      )}
-    />
+    <Space direction="vertical" size={16} style={{ display: 'flex' }}>
+      {rows.map((row) => (
+        <Row justify="center" gutter={16}>
+          {row.map((item) => (
+            <Col span={6}>
+              <BankCard bank={item} />
+            </Col>
+          ))}
+        </Row>
+      ))}
+    </Space>
   );
 }
 
