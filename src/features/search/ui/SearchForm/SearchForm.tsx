@@ -3,11 +3,13 @@ import { fetchBanks } from 'app/redux/banksSlice';
 import { AppDispatch } from 'app/redux/store';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { useThrottle } from 'shared';
 
 function SearchForm() {
   const dispatch = useDispatch<AppDispatch>();
-  const [searchString, setSearchString] = useState('');
+  const { search } = useParams();
+  const [searchString, setSearchString] = useState(search ?? '');
   const throttledValue = useThrottle(searchString);
 
   useEffect(() => {
@@ -27,10 +29,10 @@ function SearchForm() {
       name="searchform"
       layout="inline"
       initialValues={{
-        searchString: '',
+        searchString: search ?? '',
       }}
     >
-      <Form.Item name="searchString" label="Search banks">
+      <Form.Item name="searchString" label="Search banks in: ">
         <Input onChange={onChange} placeholder="Type city name here" />
       </Form.Item>
     </Form>

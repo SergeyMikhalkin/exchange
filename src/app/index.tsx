@@ -13,7 +13,9 @@ function App() {
   return (
     <Suspense fallback={<Loading />}>
       <Routes>
-        <Route path="/" element={<MainPage />} />
+        <Route path="/" element={<MainPage />}>
+          <Route path=":search" element={<MainPage />} />
+        </Route>
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/history" element={<HistoryPage />} />

@@ -21,7 +21,7 @@ export function HistoryPage() {
         {history.map((historyItem) => (
           <Row key={historyItem.dateTime} justify="space-around" align="middle">
             <Col>
-              <Link to={`/searchString=${historyItem.searchString}`}>
+              <Link to={`/${historyItem.searchString}`}>
                 <Title level={4}>{historyItem.searchString}</Title>
               </Link>
             </Col>
