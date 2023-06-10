@@ -1,7 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { BASE_URL, Bank, RawBank, Statuses } from 'shared';
 
-const initialState = {
+type State = {
+  entities: { [key: string]: Bank };
+  status: Statuses;
+};
+
+const initialState: State = {
   entities: {},
   status: Statuses.idle,
 };
@@ -24,6 +29,7 @@ const transformData = (rawBank: RawBank): Bank => {
     buildingNumber: rawBank.home_number,
     cityName: rawBank.name,
     cityType: rawBank.name_type,
+    favorite: false, // getFromLS
   };
   return bankInfo;
 };
@@ -31,7 +37,12 @@ const transformData = (rawBank: RawBank): Bank => {
 const banksSlice = createSlice({
   name: 'banks',
   initialState,
-  reducers: {},
+  reducers: {
+    toggleFavorite(state, action) {
+      const bank = state.entities[action.payload];
+      if (bank) bank.favorite = !bank.favorite;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchBanks.pending, (state) => {
@@ -58,6 +69,8 @@ const banksSlice = createSlice({
 });
 
 export default banksSlice;
+
+export const { toggleFavorite } = banksSlice.actions;
 
 type RootState = {
   banks: {

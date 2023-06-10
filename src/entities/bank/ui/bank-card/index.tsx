@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Space, Typography } from 'antd';
 import { Bank } from 'shared';
 import PropTypes from 'prop-types';
 import { HeartFilled, HeartOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from 'app/redux/store';
+import { toggleFavorite } from 'app/redux/banksSlice';
 
 const { Text } = Typography;
 
@@ -34,7 +37,8 @@ type Props = {
 
 function BankCard(props: Props) {
   const { bank } = props;
-  const [favorite, toggleFavorite] = useState(false);
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const title = `${bank.cityType} ${bank.cityName}`;
   const filial = bank.description;
@@ -52,10 +56,10 @@ function BankCard(props: Props) {
       bodyStyle={{ height: 350, overflow: 'hidden' }}
       extra={<Link to={link}>More</Link>}
       actions={[
-        favorite ? (
-          <HeartFilled onClick={() => toggleFavorite(!favorite)} key="favorite" />
+        bank.favorite ? (
+          <HeartFilled onClick={() => dispatch(toggleFavorite(bank.filialId))} key="favorite" />
         ) : (
-          <HeartOutlined onClick={() => toggleFavorite(!favorite)} key="favorite" />
+          <HeartOutlined onClick={() => dispatch(toggleFavorite(bank.filialId))} key="favorite" />
         ),
       ]}
     >
@@ -82,5 +86,6 @@ BankCard.propTypes = {
     buildingNumber: PropTypes.string,
     cityName: PropTypes.string,
     cityType: PropTypes.string,
+    favorite: PropTypes.bool,
   }).isRequired,
 };
