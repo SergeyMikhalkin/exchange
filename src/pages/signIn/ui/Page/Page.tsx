@@ -1,17 +1,20 @@
 import React from 'react';
 import { SignInForm } from 'features/auth/signIn';
-import { SignInFormData, useLocalStorage } from 'shared';
+import { LS_KEYS, SignInFormData, useCurrentUser, useLocalStorageUsers } from 'shared';
 import { Typography } from 'antd';
 
 const { Title } = Typography;
 
 export function SignInPage() {
-  const [users] = useLocalStorage();
+  const [, setCurrentUser] = useCurrentUser();
+  const [users] = useLocalStorageUsers();
 
   const onSubmit = (formData: SignInFormData) => {
-    if (users[formData.userName + formData.password]) {
+    const userName = `${formData.userName}__${formData.password}`;
+    if (users[LS_KEYS.users] && users[LS_KEYS.users][userName]) {
       console.log('welcome');
-    }
+      setCurrentUser(userName);
+    } else console.log('user doesnt exist');
   };
 
   return (
