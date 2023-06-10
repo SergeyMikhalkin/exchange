@@ -17,8 +17,10 @@ export const saveHistoryMiddleware: Middleware = () => (next) => (action) => {
         allUsersObj[LS_KEYS.users][currentUser] &&
         allUsersObj[LS_KEYS.users][currentUser][LS_KEYS.history]
       ) {
+        const historyItem = { searchString: action.meta.arg, dateTime: Date.now().toString() };
+
         allUsersObj[LS_KEYS.users][currentUser][LS_KEYS.history] = [
-          action.meta.arg,
+          historyItem,
           ...allUsersObj[LS_KEYS.users][currentUser][LS_KEYS.history],
         ];
 

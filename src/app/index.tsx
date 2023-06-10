@@ -6,6 +6,7 @@ import Loading from 'shared/ui';
 const MainPage = lazy(() => import('../pages/main'));
 const SignUpPage = lazy(() => import('../pages/signUp'));
 const SignInPage = lazy(() => import('../pages/signIn'));
+const HistoryPage = lazy(() => import('../pages/history'));
 const NotFoundPage = lazy(() => import('../pages/notFound'));
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/signin" element={<SignInPage />} />
+        <Route path="/history" element={<HistoryPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Suspense>
