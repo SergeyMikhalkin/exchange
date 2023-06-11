@@ -9,7 +9,12 @@ enum BankInfo {
 export const saveFavoriteMiddleware: Middleware = () => (next) => (action) => {
   const { payload } = action;
 
-  if (payload && BankInfo.filialId in payload && BankInfo.searchString in payload) {
+  if (
+    payload &&
+    typeof payload === 'object' &&
+    BankInfo.filialId in payload &&
+    BankInfo.searchString in payload
+  ) {
     const { filialId, searchString } = payload;
     const currentUser = localStorage.getItem(LS_KEYS.currentUser);
 
