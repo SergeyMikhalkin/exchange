@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, createContext, lazy, useMemo, useState } from 'react';
 import './index.scss';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Loading from 'shared/ui';
@@ -31,49 +31,65 @@ function PrivateRouteWhenLoggedIn({ children }: Props) {
   return !auth ? <div>{children}</div> : <Navigate to="/" />;
 }
 
+export type ContextType = {
+  darkBG: boolean;
+  setDarkBG: (c: boolean) => void;
+};
+
+export const BackgroundContext = createContext<ContextType>({
+  darkBG: false,
+  setDarkBG: () => {},
+});
+
 function App() {
+  const [darkBG, setDarkBG] = useState(false);
+
+  const memoValue = useMemo(() => ({ darkBG, setDarkBG }), [darkBG]);
+
   return (
-    <Suspense fallback={<Loading />}>
-      <Routes>
-        <Route path="/" element={<MainPage />}>
-          <Route path=":search" element={<MainPage />} />
-        </Route>
-        <Route path="/bank/:id" element={<DetailsPage />} />
-        <Route
-          path="/signup"
-          element={
-            <PrivateRouteWhenLoggedIn>
-              <SignUpPage />
-            </PrivateRouteWhenLoggedIn>
-          }
-        />
-        <Route
-          path="/signin"
-          element={
-            <PrivateRouteWhenLoggedIn>
-              <SignInPage />
-            </PrivateRouteWhenLoggedIn>
-          }
-        />
-        <Route
-          path="/history"
-          element={
-            <PrivateRoute>
-              <HistoryPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/favorites"
-          element={
-            <PrivateRoute>
-              <FavoritesPage />
-            </PrivateRoute>
-          }
-        />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </Suspense>
+    <BackgroundContext.Provider value={memoValue}>
+      <Suspense fallback={<Loading />}>
+        <Routes>
+          <Route path="/" element={<MainPage />}>
+            <Route path=":search" element={<MainPage />} />
+          </Route>
+          <Route path="/bank/:id" element={<DetailsPage />} />
+          <Route
+            path="/signup"
+            element={
+              <PrivateRouteWhenLoggedIn>
+                <SignUpPage />
+              </PrivateRouteWhenLoggedIn>
+            }
+          />
+          <Route
+            path="/signin"
+            element={
+              <PrivateRouteWhenLoggedIn>
+                <SignInPage />
+              </PrivateRouteWhenLoggedIn>
+            }
+          />
+          <Route
+            path="/history"
+            element={
+              <PrivateRoute>
+                <HistoryPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/favorites"
+            element={
+              <PrivateRoute>
+                <FavoritesPage />
+              </PrivateRoute>
+            }
+          />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Suspense>
+    </BackgroundContext.Provider>
   );
 }
 

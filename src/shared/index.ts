@@ -3,8 +3,9 @@ export type { SignInFormData } from './types/SignInFormData';
 export type { Bank } from './types/Bank';
 export type { RawBank } from './types/RawBank';
 export type { HistoryItem } from './types/HistoryItem';
-export type { FavoriteToggle } from './types/FavoriteToggle'
+export type { FavoriteToggle } from './types/FavoriteToggle';
 export { Statuses } from './enums/Statuses';
+export { BgColors } from './enums/BgColors';
 export { useLocalStorageUsers } from './hooks/useLocalStorageUsers';
 export { useCurrentUser } from './hooks/useCurrentUser';
 export { useHistory } from './hooks/useHistory';
