@@ -46,7 +46,7 @@ const transformData = (rawBank: RawBank): Bank => {
     buildingNumber: rawBank.home_number,
     cityName: rawBank.name,
     cityType: rawBank.name_type,
-    favorite: getFavoriteFromLocalStorage(rawBank.filial_id), // getFromLS
+    favorite: getFavoriteFromLocalStorage(rawBank.filial_id),
   };
   return bankInfo;
 };
