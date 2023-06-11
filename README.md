@@ -25,3 +25,5 @@
 - Используется Modern Redux with Redux Toolkit ([configureStore](./src/app/redux/store.ts)),
 - Используются слайсы ([banksSlice](./src/app/redux/banksSlice.ts)),
 - Есть хотя бы одна кастомная мидлвара ([saveHistoryMiddleware](./src/app/redux/saveHistoryMiddleware.ts)),
+- Используется RTK Query ([apiSlice](./src/app/redux/apiSlice.ts)),
+- Используется Transforming Responses ([apiSlice](./src/app/redux/apiSlice.ts))
