@@ -18,13 +18,13 @@ export function SignInPage() {
 
   const onSubmit = async (formData: SignInFormData) => {
     const userName = `${formData.userName}__${formData.password}`;
-    
+
     if (users[LS_KEYS.users] && users[LS_KEYS.users][userName]) {
       setCurrentUser(userName);
       dispatch(setAuth(userName));
       await wait(500);
       navigate('/');
-    } else setMismatchPasswordError(true); 
+    } else setMismatchPasswordError(true);
   };
 
   return (

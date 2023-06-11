@@ -13,9 +13,8 @@ export function SignUpPage() {
 
   const onSubmit = async (formData: SignUpFormData) => {
     const newUser = `${formData.userName}__${formData.password}`;
-    
-    if (users[LS_KEYS.users][newUser])
-      setUserAlreadyExsistError(true);
+
+    if (users[LS_KEYS.users][newUser]) setUserAlreadyExsistError(true);
     else {
       setUserAlreadyExsistError(false);
       const newUsersObj = {
