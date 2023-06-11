@@ -15,7 +15,7 @@ const { Text } = Typography;
 function SearchForm() {
   const dispatch = useDispatch<AppDispatch>();
   const { search } = useParams();
-  const [searchString, setSearchString] = useState(search ?? '');
+  const [searchString, setSearchString] = useState('');
   const throttledValue = useThrottle(searchString);
   const banksStatus = useSelector(getStatus);
   const [currentUser, setCurrentUser] = useCurrentUser();
@@ -49,6 +49,8 @@ function SearchForm() {
     dispatch(setAuth(''));
     setCurrentUser('');
   };
+
+  useEffect(() => setSearchString(search ?? ''), [search]);
 
   return (
     <Form

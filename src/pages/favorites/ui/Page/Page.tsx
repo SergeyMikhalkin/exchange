@@ -1,32 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Layout, Row, Space, Spin, Typography } from 'antd';
-import { Bank, useCurrentUser, useFavorites } from 'shared';
 import { useGetBanksQuery } from 'app/redux/apiSlice';
 import BanksList from 'widgets/BanksList';
 import { Link } from 'react-router-dom';
+import { fillDataFromRTKQuery, getFavoriteBanks, resetState } from 'app/redux/banksSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch } from 'app/redux/store';
 
 const { Title } = Typography;
 const { Content } = Layout;
 
 export function FavoritesPage() {
-  const [currentUser] = useCurrentUser();
-  const userFavorites = useFavorites(currentUser);
+  const dispatch = useDispatch<AppDispatch>();
+  const banks = useSelector(getFavoriteBanks);
 
-  const { data: dataFromApi, isLoading } = useGetBanksQuery();
-  let favorites: Bank[] = [];
+  const { data: dataFromApi, isLoading, isSuccess } = useGetBanksQuery();
 
-  if (dataFromApi && userFavorites) {
-    favorites = dataFromApi.filter((favoriteFromApi) =>
-      userFavorites.some((favoriteFromLS) => favoriteFromLS === favoriteFromApi.filialId)
-    );
-  }
+  useEffect(() => {
+    dispatch(fillDataFromRTKQuery(dataFromApi));
+  }, [isSuccess, dataFromApi, dispatch]);
 
   return (
     <Space direction="vertical" style={{ width: '100%' }} size={[0, 48]}>
       <Layout>
         <Row justify="space-around" align="middle">
           <Title>
-            <Link to="/">&larr; На главную</Link>
+            <Link to="/" onClick={() => dispatch(resetState())}>
+              &larr; На главную
+            </Link>
           </Title>
           <Title>Избраное</Title>
         </Row>
@@ -40,7 +41,7 @@ export function FavoritesPage() {
               <Spin size="large" />
             </Space>
           ) : (
-            <BanksList banks={favorites} />
+            <BanksList banks={banks} />
           )}
         </Content>
       </Layout>
