@@ -2,10 +2,12 @@ import React, { Suspense, createContext, lazy, useMemo, useState } from 'react';
 import './index.scss';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Loading from 'shared/ui';
-import { LS_KEYS, getFavoritesFromLocalStorage } from 'shared';
-import { setAuth } from './redux/authSlice';
+import { getFavoritesFromLocalStorage } from 'shared';
+import { useSelector } from 'react-redux';
+import { getUserAuth } from './redux/authSlice';
 import store from './redux/store';
 import { fillFavorites } from './redux/banksSlice';
+
 
 const MainPage = lazy(() => import('../pages/main'));
 const SignUpPage = lazy(() => import('../pages/signUp'));
@@ -19,18 +21,15 @@ interface Props {
   children: JSX.Element | JSX.Element[];
 }
 
-const currentUser = localStorage[LS_KEYS.currentUser];
-store.dispatch(setAuth(currentUser));
-
-function PrivateRoute({ children }: Props) {
-  const auth = store.getState().auth.user;
+export function PrivateRoute({ children }: Props) {
+  const auth = useSelector(getUserAuth);
   return auth ? <div>{children}</div> : <Navigate to="/signin" />;
-}
+};
 
-function PrivateRouteWhenLoggedIn({ children }: Props) {
-  const auth = store.getState().auth.user;
+export function PrivateRouteWhenLoggedIn({ children }: Props) {
+  const auth = useSelector(getUserAuth);
   return !auth ? <div>{children}</div> : <Navigate to="/" />;
-}
+};
 
 export type ContextType = {
   darkBG: boolean;
