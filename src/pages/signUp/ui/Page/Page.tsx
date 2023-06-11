@@ -1,7 +1,7 @@
 import React from 'react';
 import { SignUpForm } from 'features/auth/signUp';
 import { LS_KEYS, LS_USER_INITIAL_STATE, SignUpFormData, useLocalStorageUsers } from 'shared';
-import { Typography } from 'antd';
+import { Col, Row, Typography } from 'antd';
 
 const { Title } = Typography;
 
@@ -20,9 +20,11 @@ export function SignUpPage() {
   };
 
   return (
-    <>
-      <Title>Sign Up</Title>
-      <SignUpForm onSubmit={onSubmit} />
-    </>
+    <Row justify="space-around" align="middle">
+      <Col span={10}>
+        <Title>Sign Up</Title>
+        <SignUpForm onSubmit={onSubmit} />
+      </Col>
+    </Row>
   );
 }

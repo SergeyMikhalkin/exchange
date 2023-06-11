@@ -22,7 +22,7 @@ export function SignUpForm({ onSubmit }: Props) {
         name="basic"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
-        style={{ minWidth: 600 }}
+        style={{ maxWidth: 600 }}
         autoComplete="off"
         onFinish={onSubmit}
       >

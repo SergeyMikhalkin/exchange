@@ -1,7 +1,7 @@
 import React from 'react';
 import { SignInForm } from 'features/auth/signIn';
 import { LS_KEYS, SignInFormData, useCurrentUser, useLocalStorageUsers } from 'shared';
-import { Typography } from 'antd';
+import { Col, Row, Typography } from 'antd';
 
 const { Title } = Typography;
 
@@ -18,9 +18,11 @@ export function SignInPage() {
   };
 
   return (
-    <>
-      <Title>Sign In</Title>
-      <SignInForm onSubmit={onSubmit} />
-    </>
+    <Row justify="space-around" align="middle">
+      <Col span={10}>
+        <Title>Sign In</Title>
+        <SignInForm onSubmit={onSubmit} />
+      </Col>
+    </Row>
   );
 }
