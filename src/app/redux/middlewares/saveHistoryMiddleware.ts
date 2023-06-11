@@ -4,7 +4,12 @@ import { LS_KEYS } from 'shared';
 export const saveHistoryMiddleware: Middleware = () => (next) => (action) => {
   const { payload } = action;
 
-  if (payload && Array.isArray(payload) && payload.length > 0) {
+  if (
+    payload &&
+    Array.isArray(payload) &&
+    payload.length > 0 &&
+    action.type === 'banks/fetchBanks/fulfilled'
+  ) {
     const currentUser = localStorage.getItem(LS_KEYS.currentUser);
 
     if (currentUser) {

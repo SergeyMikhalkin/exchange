@@ -50,6 +50,8 @@ function BankCard(props: Props) {
 
   const link = `/bank/${bank.filialId}`;
 
+  const bankInfo = { filialId: bank.filialId, searchString: bank.cityName };
+
   return (
     <Card
       title={title}
@@ -57,9 +59,9 @@ function BankCard(props: Props) {
       extra={<Link to={link}>More</Link>}
       actions={[
         bank.favorite ? (
-          <HeartFilled onClick={() => dispatch(toggleFavorite(bank.filialId))} key="favorite" />
+          <HeartFilled onClick={() => dispatch(toggleFavorite(bankInfo))} key="favorite" />
         ) : (
-          <HeartOutlined onClick={() => dispatch(toggleFavorite(bank.filialId))} key="favorite" />
+          <HeartOutlined onClick={() => dispatch(toggleFavorite(bankInfo))} key="favorite" />
         ),
       ]}
     >
