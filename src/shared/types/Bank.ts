@@ -10,4 +10,16 @@ export type Bank = {
   cityName: string;
   cityType: string;
   favorite: boolean;
+  usdIn?: string;
+  usdOut?: string;
+  eurIn?: string;
+  eurOut?: string;
+  rubIn?: string;
+  rubOut?: string;
+  gbrIn?: string;
+  gbrOut?: string;
+  cadIn?: string;
+  cadOut?: string;
+  plnIn?: string;
+  plnOut?: string;
 };

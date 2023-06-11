@@ -8,4 +8,16 @@ export type RawBank = {
   home_number: string;
   name: string;
   name_type: string;
+  USD_in?: string;
+  USD_out?: string;
+  EUR_in?: string;
+  EUR_out?: string;
+  RUB_in?: string;
+  RUB_out?: string;
+  GBR_in?: string;
+  GBR_out?: string;
+  CAD_in?: string;
+  CAD_out?: string;
+  PLN_in?: string;
+  PLN_out?: string;
 };

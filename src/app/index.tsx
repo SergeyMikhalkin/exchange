@@ -11,6 +11,7 @@ const SignUpPage = lazy(() => import('../pages/signUp'));
 const SignInPage = lazy(() => import('../pages/signIn'));
 const HistoryPage = lazy(() => import('../pages/history'));
 const FavoritesPage = lazy(() => import('../pages/favorites'));
+const DetailsPage = lazy(() => import('../pages/details'));
 const NotFoundPage = lazy(() => import('../pages/notFound'));
 
 interface Props {
@@ -37,6 +38,7 @@ function App() {
         <Route path="/" element={<MainPage />}>
           <Route path=":search" element={<MainPage />} />
         </Route>
+        <Route path="/bank/:id" element={<DetailsPage />} />
         <Route
           path="/signup"
           element={
