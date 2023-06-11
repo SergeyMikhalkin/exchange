@@ -1,11 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { LS_KEYS } from 'shared';
 
-type State = {
+export type AuthState = {
   user: string;
 };
 
-const initialState: State = {
-  user: '',
+const currentUser = localStorage[LS_KEYS.currentUser];
+
+const initialState: AuthState = {
+  user: currentUser,
 };
 
 const authSlice = createSlice({

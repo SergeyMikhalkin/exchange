@@ -12,6 +12,7 @@ export function getFavoritesFromLocalStorage(): string[] {
   const usersObj = JSON.parse(users);
   const user = usersObj[LS_KEYS.users][currentUser] ?? undefined;
   const favorites = user && user[LS_KEYS.favorites] ? user[LS_KEYS.favorites] : undefined;
+  if(!favorites) return [];
   const mergedFavorites = Object.values(favorites) as Array<FavoriteItem>;
   return mergedFavorites.map((x) => Object.keys(x)).flat();
 }
