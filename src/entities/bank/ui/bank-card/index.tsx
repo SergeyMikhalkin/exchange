@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Space, Typography } from 'antd';
+import { Card, Divider, Row, Space, Typography } from 'antd';
 import { Bank } from 'shared';
 import PropTypes from 'prop-types';
 import { HeartFilled, HeartOutlined } from '@ant-design/icons';
@@ -65,11 +65,16 @@ function BankCard(props: Props) {
         ),
       ]}
     >
-      <Text strong>{filial}</Text>
       <Space direction="vertical">
-        <Text>{address}</Text>
+        <Text strong>{filial}</Text>
+        <Divider />
+        <Row justify="start" align="middle">
+          <Text>{address}</Text>
+        </Row>
         {formatedShedule.map((day: string) => (
-          <Text key={day}>{day}</Text>
+          <Row justify="start" align="middle" key={day}>
+            <Text key={day}>{day}</Text>
+          </Row>
         ))}
       </Space>
     </Card>
