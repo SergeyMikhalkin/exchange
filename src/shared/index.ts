@@ -10,3 +10,4 @@ export { useHistory } from './hooks/useHistory';
 export { useFavorites } from './hooks/useFavorites';
 export { LS_KEYS, LS_USER_INITIAL_STATE, BASE_URL, BASE_URL_RTK } from './constants/constants';
 export { useThrottle } from './hooks/useThrottle';
+export { wait } from './utils/wait';
