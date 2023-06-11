@@ -7,5 +7,6 @@ export { Statuses } from './enums/Statuses';
 export { useLocalStorageUsers } from './hooks/useLocalStorageUsers';
 export { useCurrentUser } from './hooks/useCurrentUser';
 export { useHistory } from './hooks/useHistory';
-export { LS_KEYS, LS_USER_INITIAL_STATE, BASE_URL } from './constants/constants';
+export { useFavorites } from './hooks/useFavorites';
+export { LS_KEYS, LS_USER_INITIAL_STATE, BASE_URL, BASE_URL_RTK } from './constants/constants';
 export { useThrottle } from './hooks/useThrottle';

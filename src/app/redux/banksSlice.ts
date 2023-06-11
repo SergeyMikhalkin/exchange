@@ -1,7 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { BASE_URL, Bank, RawBank, Statuses } from 'shared';
+import { BASE_URL, Bank, LS_KEYS, RawBank, Statuses } from 'shared';
 
-const initialState = {
+type State = {
+  entities: { [key: string]: Bank };
+  status: Statuses;
+};
+
+const initialState: State = {
   entities: {},
   status: Statuses.idle,
 };
@@ -14,6 +19,23 @@ export const fetchBanks = createAsyncThunk<Promise<Array<RawBank>>, string>(
   }
 );
 
+type FavoriteItem = {
+  [key: string]: boolean;
+};
+
+function getFavoriteFromLocalStorage(filialId: string): boolean {
+  const users = localStorage.getItem(LS_KEYS.users);
+  const currentUser = localStorage.getItem(LS_KEYS.currentUser);
+  if (!users || !currentUser) return false;
+
+  const usersObj = JSON.parse(users);
+  const user = usersObj[LS_KEYS.users][currentUser] ?? undefined;
+  const favorites = user && user[LS_KEYS.favorites] ? user[LS_KEYS.favorites] : undefined;
+  const mergedFavorites = Object.values(favorites) as Array<FavoriteItem>;
+  const favoriteIds = mergedFavorites.map((x) => Object.keys(x)).flat();
+  return favoriteIds.some((favoriteId) => favoriteId === filialId);
+}
+
 const transformData = (rawBank: RawBank): Bank => {
   const bankInfo: Bank = {
     filialId: rawBank.filial_id,
@@ -24,6 +46,7 @@ const transformData = (rawBank: RawBank): Bank => {
     buildingNumber: rawBank.home_number,
     cityName: rawBank.name,
     cityType: rawBank.name_type,
+    favorite: getFavoriteFromLocalStorage(rawBank.filial_id), // getFromLS
   };
   return bankInfo;
 };
@@ -31,7 +54,20 @@ const transformData = (rawBank: RawBank): Bank => {
 const banksSlice = createSlice({
   name: 'banks',
   initialState,
-  reducers: {},
+  reducers: {
+    toggleFavorite(state, action) {
+      const bank = state.entities[action.payload.filialId];
+      if (bank) bank.favorite = !bank.favorite;
+    },
+    toggleFavorites(state, action) {
+      const favorites = action.payload;
+      if (Array.isArray(favorites)) {
+        favorites.forEach((favorite) => {
+          if (state.entities[favorite.toString()]) state.entities[favorite].favorite = true;
+        });
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchBanks.pending, (state) => {
@@ -58,6 +94,8 @@ const banksSlice = createSlice({
 });
 
 export default banksSlice;
+
+export const { toggleFavorite, toggleFavorites } = banksSlice.actions;
 
 type RootState = {
   banks: {

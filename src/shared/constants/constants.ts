@@ -11,3 +11,5 @@ export const LS_USER_INITIAL_STATE = {
 };
 
 export const BASE_URL = 'https://belarusbank.by/api/kursExchange?city=';
+
+export const BASE_URL_RTK = 'https://belarusbank.by/api/kursExchange/city';
