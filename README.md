@@ -14,6 +14,7 @@
 - Функциональные компоненты c хуками в приоритете над классовыми,
 - Есть рендеринг списков ([BanksList](./src/widgets/BanksList/BanksList.tsx)),
 - Реализована хотя бы одна форма ([SignUp](./src/features/auth/signUp/ui/SignUpForm/SignUpForm.tsx), [SignIn](./src/features/auth/signIn/ui/SignInForm/SignInForm.tsx), [SearchForm](./src/features/search/ui/SearchForm/SearchForm.tsx)),
+- Есть применение Контекст API ([BackgroundContext](./src/app/index.tsx)),
 - Есть применение предохранителя ([withErrorBoundary](./src/index.tsx)),
 - Есть хотя бы один кастомный хук ([useLocalStorage](./src/shared/hooks/useLocalStorage.ts), [useThrottle](./src/shared/hooks/useThrottle.ts), [useHistory](./src/shared/hooks/useHistory.ts), [useCurrentUser](./src/shared//hooks/useCurrentUser.ts), [useLocalStorageUsers](./src/shared/hooks/useLocalStorageUsers.ts)),
 - Хотя бы несколько компонентов используют PropTypes ([BanksList](./src/widgets/BanksList/BanksList.tsx), [BankCard](./src/entities/bank/ui/bank-card/index.tsx)),

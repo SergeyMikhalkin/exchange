@@ -1,10 +1,11 @@
 import { BankOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Typography } from 'antd';
+import { Button, Form, Input, Switch, Typography } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
+import { BackgroundContext } from 'app';
 import { getUserAuth, setAuth } from 'app/redux/authSlice';
 import { fetchBanks, getStatus, toggleFavorites } from 'app/redux/banksSlice';
 import { AppDispatch } from 'app/redux/store';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { Statuses, useCurrentUser, useFavorites, useThrottle } from 'shared';
@@ -20,6 +21,7 @@ function SearchForm() {
   const [currentUser, setCurrentUser] = useCurrentUser();
   const favorites = useFavorites(currentUser);
   const isAuth = useSelector(getUserAuth);
+  const { setDarkBG } = useContext(BackgroundContext);
 
   useEffect(() => {
     if (throttledValue) {
@@ -37,6 +39,10 @@ function SearchForm() {
     if (e.target.value.length > 3) {
       setSearchString(e.target.value);
     }
+  };
+
+  const onChangeBG = (e: boolean) => {
+    setDarkBG(e);
   };
 
   const onSignOut = () => {
@@ -58,6 +64,9 @@ function SearchForm() {
       <Form.Item name="searchString" label="Найти в городе: ">
         <Input onChange={onChange} placeholder="Тут название города" />
       </Form.Item>
+      <FormItem label="Темный фон" valuePropName="checked">
+        <Switch onChange={onChangeBG} />
+      </FormItem>
       {isAuth ? (
         <>
           <Form.Item>

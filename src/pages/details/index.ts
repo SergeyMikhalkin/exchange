@@ -1,3 +1,3 @@
-import { DetailsPage } from "./ui/Page/Page";
+import { DetailsPage } from './ui/Page/Page';
 
 export default DetailsPage;
