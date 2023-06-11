@@ -69,7 +69,7 @@ function BankCard(props: Props) {
       <Space direction="vertical">
         <Text>{address}</Text>
         {formatedShedule.map((day: string) => (
-          <Text>{day}</Text>
+          <Text key={day}>{day}</Text>
         ))}
       </Space>
     </Card>

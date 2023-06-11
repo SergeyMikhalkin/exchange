@@ -24,9 +24,9 @@ function BanksList(props: Props) {
   return (
     <Space direction="vertical" size={16} style={{ display: 'flex' }}>
       {rows.map((row) => (
-        <Row justify="center" gutter={16}>
+        <Row justify="center" gutter={16} key={JSON.stringify(row)}>
           {row.map((item) => (
-            <Col span={6}>
+            <Col span={6} key={item.filialId}>
               <BankCard bank={item} />
             </Col>
           ))}
