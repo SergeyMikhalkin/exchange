@@ -23,7 +23,9 @@ export default authSlice;
 export const { setAuth } = authSlice.actions;
 
 type RootState = {
-  user: string;
+  auth: {
+    user: string;
+  };
 };
 
-export const getUserAuth = (state: RootState): string => state.user;
+export const getUserAuth = (state: RootState): string => state.auth.user;

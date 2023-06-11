@@ -3,9 +3,9 @@ import { Button, Card, Form, Input } from 'antd';
 import { SignUpFormData } from 'shared';
 import { RuleObject } from 'antd/es/form';
 
-type Props = { onSubmit: (formData: SignUpFormData) => void };
+type Props = { onSubmit: (formData: SignUpFormData) => void; userAlreadyExsistError: boolean };
 
-export function SignUpForm({ onSubmit }: Props) {
+export function SignUpForm({ onSubmit, userAlreadyExsistError }: Props) {
   const [form] = Form.useForm();
 
   const checkPasswordsEquality = (_: RuleObject, value: string) => {
@@ -26,6 +26,7 @@ export function SignUpForm({ onSubmit }: Props) {
         autoComplete="off"
         onFinish={onSubmit}
       >
+        {userAlreadyExsistError ? <Form.Item>Пользователь существует!</Form.Item> : <Form.Item />}
         <Form.Item
           label="User name"
           name="userName"
