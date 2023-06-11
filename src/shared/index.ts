@@ -14,3 +14,4 @@ export { LS_KEYS, LS_USER_INITIAL_STATE, BASE_URL, BASE_URL_RTK } from './consta
 export { useThrottle } from './hooks/useThrottle';
 export { wait } from './utils/wait';
 export { formatShedule } from './utils/formatShedule';
+export { getFavoritesFromLocalStorage } from './utils/getFavoritesFromLocalStorage';

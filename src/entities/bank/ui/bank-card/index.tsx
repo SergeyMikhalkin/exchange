@@ -4,9 +4,10 @@ import { Card, Divider, Row, Space, Typography } from 'antd';
 import { Bank, formatShedule } from 'shared';
 import PropTypes from 'prop-types';
 import { HeartFilled, HeartOutlined } from '@ant-design/icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from 'app/redux/store';
 import { toggleFavorite } from 'app/redux/banksSlice';
+import { getUserAuth } from 'app/redux/authSlice';
 
 const { Text } = Typography;
 
@@ -18,6 +19,7 @@ function BankCard(props: Props) {
   const { bank } = props;
 
   const dispatch = useDispatch<AppDispatch>();
+  const userLogged = useSelector(getUserAuth);
 
   const title = `${bank.cityType} ${bank.cityName}`;
   const filial = bank.description;
@@ -31,6 +33,12 @@ function BankCard(props: Props) {
 
   const bankInfo = { filialId: bank.filialId, searchString: bank.cityName };
 
+  const onFavoriteClick = () => {
+    if (userLogged) {
+      dispatch(toggleFavorite(bankInfo));
+    }
+  };
+
   return (
     <Card
       title={title}
@@ -38,9 +46,17 @@ function BankCard(props: Props) {
       extra={<Link to={link}>More</Link>}
       actions={[
         bank.favorite ? (
-          <HeartFilled onClick={() => dispatch(toggleFavorite(bankInfo))} key="favorite" />
+          <HeartFilled
+            style={{ visibility: userLogged ? 'visible' : 'hidden' }}
+            onClick={onFavoriteClick}
+            key="favorite"
+          />
         ) : (
-          <HeartOutlined onClick={() => dispatch(toggleFavorite(bankInfo))} key="favorite" />
+          <HeartOutlined
+            style={{ visibility: userLogged ? 'visible' : 'hidden' }}
+            onClick={onFavoriteClick}
+            key="favorite"
+          />
         ),
       ]}
     >

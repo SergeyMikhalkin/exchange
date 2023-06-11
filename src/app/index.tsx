@@ -2,9 +2,10 @@ import React, { Suspense, createContext, lazy, useMemo, useState } from 'react';
 import './index.scss';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Loading from 'shared/ui';
-import { LS_KEYS } from 'shared';
+import { LS_KEYS, getFavoritesFromLocalStorage } from 'shared';
 import { setAuth } from './redux/authSlice';
 import store from './redux/store';
+import { fillFavorites } from './redux/banksSlice';
 
 const MainPage = lazy(() => import('../pages/main'));
 const SignUpPage = lazy(() => import('../pages/signUp'));
@@ -40,6 +41,13 @@ export const BackgroundContext = createContext<ContextType>({
   darkBG: false,
   setDarkBG: () => {},
 });
+
+export const fillFavoritesToStore = () => {
+  const favorites = getFavoritesFromLocalStorage();
+  store.dispatch(fillFavorites(favorites));
+};
+
+fillFavoritesToStore();
 
 function App() {
   const [darkBG, setDarkBG] = useState(false);

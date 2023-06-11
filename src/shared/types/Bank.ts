@@ -9,7 +9,7 @@ export type Bank = {
   buildingNumber: string;
   cityName: string;
   cityType: string;
-  favorite: boolean;
+  favorite?: boolean;
   usdIn?: string;
   usdOut?: string;
   eurIn?: string;

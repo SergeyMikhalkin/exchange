@@ -1,13 +1,17 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { BASE_URL, Bank, LS_KEYS, RawBank, Statuses } from 'shared';
+import { BASE_URL, BASE_URL_RTK, Bank, RawBank, Statuses } from 'shared';
 
 type State = {
   entities: { [key: string]: Bank };
+  favorites: { [key: string]: boolean };
+  all: { [key: string]: Bank };
   status: Statuses;
 };
 
 const initialState: State = {
   entities: {},
+  favorites: {},
+  all: {},
   status: Statuses.idle,
 };
 
@@ -19,22 +23,13 @@ export const fetchBanks = createAsyncThunk<Promise<Array<RawBank>>, string>(
   }
 );
 
-type FavoriteItem = {
-  [key: string]: boolean;
-};
-
-function getFavoriteFromLocalStorage(filialId: string): boolean {
-  const users = localStorage.getItem(LS_KEYS.users);
-  const currentUser = localStorage.getItem(LS_KEYS.currentUser);
-  if (!users || !currentUser) return false;
-
-  const usersObj = JSON.parse(users);
-  const user = usersObj[LS_KEYS.users][currentUser] ?? undefined;
-  const favorites = user && user[LS_KEYS.favorites] ? user[LS_KEYS.favorites] : undefined;
-  const mergedFavorites = Object.values(favorites) as Array<FavoriteItem>;
-  const favoriteIds = mergedFavorites.map((x) => Object.keys(x)).flat();
-  return favoriteIds.some((favoriteId) => favoriteId === filialId);
-}
+export const fetchAllBanks = createAsyncThunk<Promise<Array<RawBank>>, void>(
+  'banks/fetchAllBanks',
+  async () => {
+    const response = await fetch(BASE_URL_RTK);
+    return response.json();
+  }
+);
 
 const transformData = (rawBank: RawBank): Bank => {
   const bankInfo: Bank = {
@@ -46,7 +41,6 @@ const transformData = (rawBank: RawBank): Bank => {
     buildingNumber: rawBank.home_number,
     cityName: rawBank.name,
     cityType: rawBank.name_type,
-    favorite: getFavoriteFromLocalStorage(rawBank.filial_id),
   };
   return bankInfo;
 };
@@ -56,8 +50,15 @@ const banksSlice = createSlice({
   initialState,
   reducers: {
     toggleFavorite(state, action) {
-      const bank = state.entities[action.payload.filialId];
-      if (bank) bank.favorite = !bank.favorite;
+      const { filialId } = action.payload;
+      if (!state.entities[filialId].favorite) {
+        state.entities[filialId].favorite = true;
+      } else {
+        state.entities[filialId].favorite = !state.entities[filialId].favorite;
+      }
+
+      if (state.favorites[filialId]) delete state.favorites[filialId];
+      else state.favorites[filialId] = true;
     },
     toggleFavorites(state, action) {
       const favorites = action.payload;
@@ -66,6 +67,27 @@ const banksSlice = createSlice({
           if (state.entities[favorite.toString()]) state.entities[favorite].favorite = true;
         });
       }
+    },
+    fillFavorites(state, action) {
+      const favorites = action.payload as string[];
+      favorites.forEach((item) => {
+        state.favorites[item] = true;
+      });
+    },
+    fillDataFromRTKQuery(state, action) {
+      const banks = action.payload as unknown as Bank[];
+      const newEntities: { [key: string]: Bank } = {};
+
+      if (banks && banks.length) {
+        banks.forEach((bank: Bank) => {
+          newEntities[bank.filialId] = bank;
+        });
+      }
+
+      state.entities = newEntities;
+    },
+    resetState(state) {
+      state.entities = {};
     },
   },
   extraReducers: (builder) => {
@@ -85,21 +107,50 @@ const banksSlice = createSlice({
         }
 
         state.entities = newEntities;
+        state.all = { ...state.all, ...newEntities };
+
+        const banks = Object.values(state.entities);
+        banks.forEach((bank) => {
+          bank.favorite = state.favorites[bank.filialId] !== undefined;
+        });
+
         state.status = Statuses.succeeded;
       })
       .addCase(fetchBanks.rejected, (state) => {
         state.status = Statuses.failed;
+      })
+      .addCase(fetchAllBanks.fulfilled, (state, action) => {
+        const newEntities: { [key: string]: Bank } = {};
+        const payload = action.payload as unknown as RawBank[];
+
+        if (payload.length) {
+          payload.forEach((bank: RawBank) => {
+            const transformedBank = transformData(bank);
+            newEntities[transformedBank.filialId] = transformedBank;
+          });
+        }
+
+        state.entities = newEntities;
+        state.all = { ...state.all, ...newEntities };
+
+        const banks = Object.values(state.entities);
+        banks.forEach((bank) => {
+          bank.favorite = state.favorites[bank.filialId] !== undefined;
+        });
       });
   },
 });
 
 export default banksSlice;
 
-export const { toggleFavorite, toggleFavorites } = banksSlice.actions;
+export const { toggleFavorite, toggleFavorites, fillFavorites, fillDataFromRTKQuery, resetState } =
+  banksSlice.actions;
 
-type RootState = {
+export type RootState = {
   banks: {
     entities: { [key: string]: Bank };
+    favorites: { [key: string]: boolean };
+    all: { [key: string]: Bank };
     status: Statuses;
   };
 };
@@ -107,3 +158,16 @@ type RootState = {
 export const getBanks = (state: RootState): Array<Bank> => Object.values(state.banks.entities);
 
 export const getStatus = (state: RootState): Statuses => state.banks.status;
+
+export const getAllBanks = (state: RootState): Array<Bank> => Object.values(state.banks.all);
+
+export const getFavorites = (state: RootState): { [key: string]: boolean } => state.banks.favorites;
+
+export const getFavoriteBanks = (state: RootState): Bank[] => {
+  const favoriteIds = Object.keys(state.banks.favorites);
+  const favoriteBanks = new Array<Bank>();
+  favoriteIds.forEach((id) => {
+    if (state.banks.entities[id]) favoriteBanks.push(state.banks.entities[id]);
+  });
+  return favoriteBanks;
+};
