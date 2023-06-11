@@ -2,9 +2,9 @@ import React from 'react';
 import { Button, Card, Form, Input } from 'antd';
 import { SignInFormData } from 'shared';
 
-type Props = { onSubmit: (formData: SignInFormData) => void };
+type Props = { onSubmit: (formData: SignInFormData) => void; mismatchPasswordError: boolean };
 
-export function SignInForm({ onSubmit }: Props) {
+export function SignInForm({ onSubmit, mismatchPasswordError }: Props) {
   return (
     <Card>
       <Form
@@ -15,6 +15,7 @@ export function SignInForm({ onSubmit }: Props) {
         autoComplete="off"
         onFinish={onSubmit}
       >
+        {mismatchPasswordError ? <Form.Item>Проверьте данные!</Form.Item> : <Form.Item />}
         <Form.Item
           label="User name"
           name="userName"

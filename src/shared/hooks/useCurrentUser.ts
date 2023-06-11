@@ -8,9 +8,7 @@ export function useCurrentUser() {
   });
 
   useEffect(() => {
-    if (value !== '') {
-      localStorage.setItem(LS_KEYS.currentUser, value);
-    }
+    localStorage.setItem(LS_KEYS.currentUser, value);
   }, [value]);
 
   return [value, setValue] as const;

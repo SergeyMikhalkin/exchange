@@ -3,10 +3,12 @@ import banksSlice from './banksSlice';
 import { saveHistoryMiddleware } from './middlewares/saveHistoryMiddleware';
 import { saveFavoriteMiddleware } from './middlewares/saveFavoriteMiddleware';
 import { apiSlice } from './apiSlice';
+import authSlice from './authSlice';
 
 const store = configureStore({
   reducer: {
     banks: banksSlice.reducer,
+    auth: authSlice.reducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
