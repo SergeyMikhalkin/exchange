@@ -34,7 +34,7 @@ function BankCard(props: Props) {
   return (
     <Card
       title={title}
-      bodyStyle={{ height: 350, overflow: 'hidden' }}
+      bodyStyle={{ height: 370, overflow: 'hidden' }}
       extra={<Link to={link}>More</Link>}
       actions={[
         bank.favorite ? (
